@@ -3,18 +3,24 @@ SERVER
 int [][] payerboard1, playerboard2
 String playername1, playername2
 int player1shots, player2shots, player1hits, player2hits, player1score, player2score
+
 public static void main (String[] args){}
+
 public int [][] makeBoard (){
 	return int[][] //The initialized, empty board
 }
 
+public void placeShip (int[][] playerboard, int x, int y, bool isHorizontal, int shipNum){
+	//Places the ship on the player's board at location x,y oriented horizontally or vertically.
+	//This method keeps track of the size of the ship, and if any part of the ship goes off the board.
+}
 //A method that takes in the player's guess, checks it against the opponents board, and returns true if the guess value in the board array is a ship.
 public bool checkShot(SOMETHING shot){
 	return bool //true if hit, false if miss
 }
 
 //
-public void updateStats(int shots, int hits){
+public void updateStats(int shots, int hits, int score){
 	//updates the stats for the appropriate player
 }
 
@@ -23,5 +29,8 @@ public bool checkIfWin(int[][] playerboard){
 }
 
 public bool checkIfSunk(int shipNum, int[][] playerboard)
-	return bool //
+	return bool //true if ship shipNum is completely hit, false otherwise
+}
+
+
 
