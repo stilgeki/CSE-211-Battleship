@@ -56,3 +56,6 @@ public bool sendGuess (int x, int y){
 	return bool isHit
 }
 
+public void setUpGame(){
+}
+
