@@ -1,0 +1,20 @@
+CSE 211 Battleship Grammar
+
+program ::= game "programEnd"
+game ::= messageList
+messageList ::= message | message messageList
+message ::= getName | sendName | getShips | sendShips | sendBoard | yourTurn | guess | hit | miss | sunk | victory | defeat | stats | playAgain
+getName ::= "getName"
+sendName ::= "sendName" STRING
+getShips ::= "getShips"
+sendShips ::= "sendShips" ( NUMBER NUMBER NUMBER CHAR ) // first number is ship ID, char is h or v for horizontal or vertical, respectively
+sendBoard ::= "sendBoard" ARRAY
+yourTurn ::= "yourTurn"
+guess ::= "guess" NUMBER NUMBER
+hit ::= "hit" NUMBER NUMBER
+miss ::= "miss" NUMBER NUMBER
+sunk ::= "sunk" NUMBER
+victory ::= "victory"
+defeat ::= "defeat"
+stats ::= "stats" NUMBER NUMBER NUMBER
+playAgain ::= "playAgain"
