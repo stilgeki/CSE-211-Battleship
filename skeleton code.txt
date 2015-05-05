@@ -19,6 +19,10 @@ public bool checkShot(SOMETHING shot){
 	return bool //true if hit, false if miss
 }
 
+public bool updateBoard(int[][] board, int x, int y, int result){
+	//Changes the value of the guess to reflect that the location has been guessed and what, if anything, was hit there.
+}
+
 //
 public void updateStats(int shots, int hits, int score){
 	//updates the stats for the appropriate player
@@ -28,9 +32,27 @@ public bool checkIfWin(int[][] playerboard){
 	return bool //true if all ships sunk, false if not true
 }
 
-public bool checkIfSunk(int shipNum, int[][] playerboard)
+public bool checkIfSunk(int shipNum, int[][] playerboard){
 	return bool //true if ship shipNum is completely hit, false otherwise
 }
 
+CLIENT
 
+int [][] playerboard
+
+public static void main (String[] args){
+}
+
+public void playGame(){
+	while(game is not over){
+		get guess from player
+		send guess to server
+		update own board
+		wait for next turn
+	}
+}
+public bool sendGuess (int x, int y){
+	//sends the guess x,y to the server and returns true if it's a hit, false otherwise.
+	return bool isHit
+}
 
