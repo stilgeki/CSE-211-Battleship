@@ -10,9 +10,31 @@
  * with clients is in the BattleshipServer class.
  */
 
+import java.io.*;
+import java.net.*;
+
 public class BattleshipServerThread extends Thread {
+	
+	protected Socket socket;
 	int[][] player1Board, player2Board;
 	String playername1, playername2;
+	
+	/**
+	 * Constructor for the BattleshipServerThread.  After creation,
+	 * the BattleshipServerThread handles two clients playing a game
+	 * of Battleship.
+	 * 
+	 * Requires: Socket for clients.
+	 * 
+	 * Effects: Allows for playing of game.
+	 * 
+	 * Modifies: Nothing.
+	 */
+	public BattleshipServerThread(Socket socket) {
+		super();
+		
+		this.socket = socket;
+	} // end BattleshipServerThread
 	
 	/**
 	 * Requires: A player's gameboard as a 2D int array, 
