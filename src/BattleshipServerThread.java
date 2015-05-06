@@ -56,7 +56,22 @@ public class BattleshipServerThread extends Thread {
 	 * 
 	 */
 	public void placeShip(int[][] playerboard, int x, int y, char orient, int shipNum){
+		int shipSize = 0;
+		if(shipNum == 1){
+			shipSize = 5;
+		}else if(shipNum == 2){
+			shipSize = 4;
+		}else if(shipNum == 3 || shipNum == 4){
+			shipSize = 3;
+		}else if(shipNum == 5){
+			shipSize = 2;
+		}
 		
+		if((orient == 'h' && (shipSize + y > 9)) || (orient == 'v' && (shipSize + x > 9))){
+			//Entry is invalid as it would go off of board
+		}else{
+			
+		}
 	}
 
 }
