@@ -37,6 +37,23 @@ public class BattleshipServerThread extends Thread {
 	} // end BattleshipServerThread
 	
 	/**
+	 * effects: sets up the boards to 10x10 arrays with all values 0 (empty) and instantiates the playernames to empty strings
+	 * modifies: both boards and player name variables
+	 */
+	public void newGame(){
+		player1Board = new int[10][10];
+		player2Board = new int[10][10];
+		for(int i = 0; i < 10; i ++){
+			for(int j = 0; j < 10; j++){
+				player1Board[i][j] = 0;
+				player2Board[i][j] = 0;
+			}
+		}
+		playername1 = "";
+		playername2 = "";
+	}
+	
+	/**
 	 * Requires: A player's gameboard as a 2D int array, 
 	 * a guess of two ints (x, y), 
 	 * a char representing ship orientation 
@@ -100,13 +117,14 @@ public class BattleshipServerThread extends Thread {
 		}
 	}
 	
-	/**Requires: a player board, and a two int guess (x,y)
+	/**
+	 * Requires: a player board, and a two int guess (x,y)
 	 * Effects: Delivers a message to the client with notification of the status of the guess, either hit (the guess was a ship),
 	 * miss (the guess was an empty space), or invalid (the guess was already attempted earlier in the game), the square is then set to a
 	 * number depending on what was hidden there.
 	 * Modifies: The space guessed (board[x][y]) is set to -6 if empty or -shipNum if hiding a ship.
 	 */
-	public int checkGuess(int [][] board, int x, int y){
+	public void checkGuess(int [][] board, int x, int y){
 		if(board[x][y] == 0){
 			//Deliver miss message
 			board[x][y] = -6
@@ -115,6 +133,35 @@ public class BattleshipServerThread extends Thread {
 		}else{
 			//Deliver hit message
 			board[x][y] -= 2*(board[x][y]);
+			checkIfSunk(board, board[x][y]);
 		}
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean checkIfSunk(int[][] board, int shipNum){
+		int count = 0;
+		int shipSize = 0;
+		if(shipNum == 1){
+			shipSize = 5;
+		}else if(shipNum == 2){
+			shipSize = 4;
+		}else if(shipNum == 3 || shipNum == 4){
+			shipSize = 3;
+		}else if(shipNum == 5){
+			shipSize = 2;
+		}
+		for(int i = 0; i < 10; i++){
+			for(int j = 0; j < 10; j++){
+				if(board[i][j] == shipNum){
+					count ++;
+				}
+			}
+		}
+		if(count == shipSize){
+			return true;
+		}
+		return false;
 	}
 }
