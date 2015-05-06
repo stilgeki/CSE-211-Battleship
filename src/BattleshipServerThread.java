@@ -99,5 +99,22 @@ public class BattleshipServerThread extends Thread {
 			}
 		}
 	}
-
+	
+	/**Requires: a player board, and a two int guess (x,y)
+	 * Effects: Delivers a message to the client with notification of the status of the guess, either hit (the guess was a ship),
+	 * miss (the guess was an empty space), or invalid (the guess was already attempted earlier in the game), the square is then set to a
+	 * number depending on what was hidden there.
+	 * Modifies: The space guessed (board[x][y]) is set to -6 if empty or -shipNum if hiding a ship.
+	 */
+	public int checkGuess(int [][] board, int x, int y){
+		if(board[x][y] == 0){
+			//Deliver miss message
+			board[x][y] = -6
+		}else if (board[x][y] < 0){
+			//Deliver repeat guess message
+		}else{
+			//Deliver hit message
+			board[x][y] -= 2*(board[x][y]);
+		}
+	}
 }
