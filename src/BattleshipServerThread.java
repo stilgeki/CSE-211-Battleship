@@ -66,11 +66,37 @@ public class BattleshipServerThread extends Thread {
 		}else if(shipNum == 5){
 			shipSize = 2;
 		}
-		
+		boolean taken = false;
 		if((orient == 'h' && (shipSize + y > 9)) || (orient == 'v' && (shipSize + x > 9))){
 			//Entry is invalid as it would go off of board
 		}else{
-			
+			if(orient == 'h'){
+				for(int i = y; i <= y + shipSize; i++){
+					if(playerboard[x][i] != 0){
+						//Ship is already hidden in a space
+						taken = true;
+					}
+				}
+				if(taken = false){
+					for(int i = y; i <= y + shipSize; i++){
+						playerboard[x][j] = shipNum;
+					}
+				}
+			}else if(orient == 'v'){
+				for(int i = x; i <= x + shipSize; i++){
+					if(playerboard[i][y] != 0){
+						//Ship is already hidden in a space
+						taken = true;
+					}
+				}
+				if(taken = false){
+					for(int j = x; j <= x + shipSize; j++){
+						playerboard[j][y] = shipNum;
+					}
+				}
+			}else{
+				//orient is invalid
+			}
 		}
 	}
 
