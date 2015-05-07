@@ -21,6 +21,8 @@ public class BattleshipClient {
 	InetAddress serverIp = null;
 	static final int SERVER_PORT = 32100;
 	boolean gameStatus = false;
+	String protocolMessage;
+	int playerID;
 	String playerName = "Player";
 	int guessRow;
 	int guessColumn;
@@ -191,37 +193,64 @@ public class BattleshipClient {
 	 * 
 	 */
 	protected void sendAndReceiveMessages() {
+		protocolMessage = "";
+		try {
 		
+			protocolMessage = dis.readUTF();
+		} catch (IOException e) {
+			System.err.println("Could not receive message code.");
+			e.printStackTrace();
+		}
+		
+		if (protocolMessage.contains("getName")) {
+			try {
+				dos.writeBytes("sendName " + playerName);
+			} catch (IOException e) {
+				System.err.println("Could not send player name.");
+				e.printStackTrace();
+			}
+		} else if (protocolMessage.contains("getShips")) {
+			sendShips();
+		} else if (protocolMessage.contains("yourTurn")) {
+			readGuess();
+		} else if (protocolMessage.contains("hit")) {
+			try {
+				playerID = dis.readInt();
+			} catch (IOException e) {
+				System.err.println("Could not get player ID.");
+				e.printStackTrace();
+			}
+			
+			updateBoard(playerID, 1); // playerID tells updateBoard which
+								   	  // board to update, 1 is hit code
+		} else if (protocolMessage.contains("miss")) {
+			try {
+				playerID = dis.readInt();
+			} catch (IOException e) {
+				System.err.println("Could not get player ID.");
+				e.printStackTrace();
+			}
+			
+			updateBoard(playerID, 0); // 0 is miss code
+			
+		} else if (protocolMessage.contains("sunk")) {
+			try {
+				playerID = dis.readInt();
+			} catch (IOException e) {
+				System.err.println("Could not get player ID.");
+				e.printStackTrace();
+			}
+			
+			// deal with sunk ship somehow
+			updateBoard(playerID, );
+		}
 	}
 	
+
 	
 	/**
-	 * Closes the communication socket and streams when the game is over.
 	 * 
-	 * Requires: The game has ended.  Socket and streams were created in
-	 * 			 the first place.
-	 * 
-	 * Effects: Closes the socket and streams.
-	 * 
-	 * Modifies: Variables socket (Socket), dos (DataOutputStream), and
-	 * 			 dis (DataInputStream).
 	 */
-	protected void closeSocketAndStreams() {
-		try {
-			socket.close();
-		} catch (IOException e) {
-			System.err.println("Could not close socket.");
-			e.printStackTrace();
-		}
-		
-		try {
-			dos.close();
-			dis.close();
-		} catch (IOException e) {
-			System.err.println("Could not close streams.");
-			e.printStackTrace();
-		}
-	} // end closeSocketAndStreams
 	public void readGuess(){
 		int guessX, guessY = -1;
 		System.out.print("Enter your guess row (0-9): ");
@@ -230,6 +259,11 @@ public class BattleshipClient {
 		guessY = readFromConsole.nextInt();
 		//Send guess to server for checkGuess(otherplayersboard, guessX, guessY)
 	}
+	
+	
+	/**
+	 * 
+	 */
 	public void printBoard(){
 		int[][] myBoard = new int[10][10]; // 
 		//get player's board from server
@@ -262,4 +296,33 @@ public class BattleshipClient {
 			System.out.println("");
 		}
 	}
+
+	/**
+	 * Closes the communication socket and streams when the game is over.
+	 * 
+	 * Requires: The game has ended.  Socket and streams were created in
+	 * 			 the first place.
+	 * 
+	 * Effects: Closes the socket and streams.
+	 * 
+	 * Modifies: Variables socket (Socket), dos (DataOutputStream), and
+	 * 			 dis (DataInputStream).
+	 */
+	protected void closeSocketAndStreams() {
+		try {
+			socket.close();
+		} catch (IOException e) {
+			System.err.println("Could not close socket.");
+			e.printStackTrace();
+		}
+		
+		try {
+			dos.close();
+			dis.close();
+		} catch (IOException e) {
+			System.err.println("Could not close streams.");
+			e.printStackTrace();
+		}
+	} // end closeSocketAndStreams
+
 }
