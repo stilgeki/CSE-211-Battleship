@@ -222,5 +222,44 @@ public class BattleshipClient {
 			e.printStackTrace();
 		}
 	} // end closeSocketAndStreams
-
+	public void readGuess(){
+		int guessX, guessY = -1;
+		System.out.print("Enter your guess row (0-9): ");
+		guessX = readFromConsole.nextInt();
+		System.out.print("Enter your guess column (0-9): ");
+		guessY = readFromConsole.nextInt();
+		//Send guess to server for checkGuess(otherplayersboard, guessX, guessY)
+	}
+	public void printBoard(){
+		int[][] myBoard = new int[10][10]; // 
+		//get player's board from server
+		int[][] oppBoard = new int[10][10];//
+		//get opponent's board from server
+		for(int i = 0; i < 10; i++){
+			for(int j = 0; j < 10; j++){
+				if(myBoard[i][j] == 0){
+					System.out.print("-");
+				}else{
+					System.out.print(myBoard[i][j]);
+				}
+			}
+			System.out.println("");
+		}
+		int[][] myBoard = new int[10][10]; // 
+		//get player's board from server
+		int[][] oppBoard = new int[10][10];//
+		//get opponent's board from server
+		for(int x = 0; x < 10; x++){
+			for(int y = 0; y < 10; y++){
+				if(oppBoard[x][y] >= 0){
+					System.out.print("-");
+				}else if(oppBoard[x][y] == -6){
+					System.out.print("X");
+				}else{
+					System.out.print(oppBoard[x][y] + (oppBoard[x][y]*2));
+				}
+			}
+			System.out.println("");
+		}
+	}
 }

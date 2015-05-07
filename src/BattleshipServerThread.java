@@ -1,4 +1,5 @@
 /**
+ /**
  * Kendall Stilgenbauer & Nathan LeVasseur
  * Instructor: Dr. Kiper
  * CSE 211, Section A
@@ -35,6 +36,14 @@ public class BattleshipServerThread extends Thread {
 		
 		this.socket = socket;
 	} // end BattleshipServerThread
+	
+	/**
+	 * run method for the thread
+	 */
+	public void run(){
+		newGame();
+		
+	}
 	
 	/**
 	 * effects: sets up the boards to 10x10 arrays with all values 0 (empty) and instantiates the playernames to empty strings
@@ -95,7 +104,7 @@ public class BattleshipServerThread extends Thread {
 					}
 				}
 				if(taken = false){
-					for(int i = y; i <= y + shipSize; i++){
+					for(int j = y; j <= y + shipSize; j++){
 						playerboard[x][j] = shipNum;
 					}
 				}
@@ -127,7 +136,7 @@ public class BattleshipServerThread extends Thread {
 	public void checkGuess(int [][] board, int x, int y){
 		if(board[x][y] == 0){
 			//Deliver miss message
-			board[x][y] = -6
+			board[x][y] = -6;
 		}else if (board[x][y] < 0){
 			//Deliver repeat guess message
 		}else{
@@ -163,5 +172,15 @@ public class BattleshipServerThread extends Thread {
 			return true;
 		}
 		return false;
+	}
+	public boolean checkIfWin(int[][] board){
+		for(int i = 0; i < 10; i++){
+			for(int j = 0; j < 10; j++){
+				if(board[i][j] > 0){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }
