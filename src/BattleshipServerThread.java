@@ -38,7 +38,14 @@ public class BattleshipServerThread extends Thread {
 	} // end BattleshipServerThread
 	
 	/**
-	 * run method for the thread
+	 * Run method for the thread.  It calls methods necessary to run
+	 * one game of Battleship.
+	 * 
+	 * Requires: Nothing.
+	 * 
+	 * Effects: Runs a game of Battleship.
+	 * 
+	 * Modifies: Nothing.
 	 */
 	public void run(){
 		newGame();
@@ -55,9 +62,13 @@ public class BattleshipServerThread extends Thread {
 		
 	}
 	
+	
 	/**
-	 * effects: sets up the boards to 10x10 arrays with all values 0 (empty) and instantiates the playernames to empty strings
-	 * modifies: both boards and player name variables
+	 * Requires: Nothing.
+	 * 
+	 * Effects: sets up the boards to 10x10 arrays with all values 0 (empty) and instantiates the playernames to empty strings
+	 * 
+	 * Modifies: both boards and player name variables
 	 */
 	public void newGame(){
 		player1Board = new int[10][10];
@@ -71,6 +82,7 @@ public class BattleshipServerThread extends Thread {
 		playername1 = "";
 		playername2 = "";
 	}
+
 	
 	/**
 	 * Requires: A player's gameboard as a 2D int array, 
@@ -135,12 +147,15 @@ public class BattleshipServerThread extends Thread {
 			}
 		}
 	}
+
 	
 	/**
 	 * Requires: a player board, and a two int guess (x,y)
+	 * 
 	 * Effects: Delivers a message to the client with notification of the status of the guess, either hit (the guess was a ship),
 	 * miss (the guess was an empty space), or invalid (the guess was already attempted earlier in the game), the square is then set to a
 	 * number depending on what was hidden there.
+	 * 
 	 * Modifies: The space guessed (board[x][y]) is set to -6 if empty or -shipNum if hiding a ship.
 	 */
 	public void checkGuess(int [][] board, int x, int y){
@@ -158,10 +173,17 @@ public class BattleshipServerThread extends Thread {
 		}
 	}
 	
+	
 	/**
+	 * Checks if a hit ship has been sunk.
 	 * 
+	 * Requires: A board and a shipNum identifier.
+	 * 
+	 * Effects: Returns true if the ship was sunk, false if not.
+	 * 
+	 * Modifies: Nothing.
 	 */
-	public boolean checkIfSunk(int[][] board, int shipNum){
+	protected boolean checkIfSunk(int[][] board, int shipNum){
 		int count = 0;
 		int shipSize = 0;
 		if(shipNum == 1){
@@ -185,7 +207,18 @@ public class BattleshipServerThread extends Thread {
 		}
 		return false;
 	}
-	public boolean checkIfWin(int[][] board){
+	
+	
+	/**
+	 * Checks if the player has won after sinking a ship.
+	 * 
+	 * Requires: A board.
+	 * 
+	 * Effects: Returns true if the player has won, false if not.
+	 * 
+	 * Modifies: Nothing.
+	 */
+	protected boolean checkIfWin(int[][] board){
 		for(int i = 0; i < 10; i++){
 			for(int j = 0; j < 10; j++){
 				if(board[i][j] > 0){
@@ -196,10 +229,17 @@ public class BattleshipServerThread extends Thread {
 		return true;
 	}
 	
+	
 	/**
-	 * Standard setter for player names
+	 * Sets the player's name on the server side.
+	 * 
+	 * Requires: playerID, which identifies the player, and name.
+	 * 
+	 * Effects: Sets the player's name.
+	 * 
+	 * Modifies: Variables playername1 or playername2 (String).
 	 */
-	setName (int playerID, String name){
+	protected void setName (int playerID, String name){
 		if(playerID == 1){
 			playername1 = name;
 		}else if(playerID == 2){

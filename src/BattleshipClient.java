@@ -51,7 +51,7 @@ public class BattleshipClient {
 		do {
 			printBoard();
 			readGuess();
-			sendAndReceiveMessages();
+			receiveMessages();
 		} while (gameStatus);
 		
 		closeSocketAndStreams();
@@ -67,7 +67,7 @@ public class BattleshipClient {
 	 * Effects: Creates the server connection and output/input streams
 	 * 			for playing of the game.
 	 * 
-	 * Modifies: Nothing directly.  (Called methods modify things.)
+	 * Modifies: Variable gameStatus (boolean).
 	 */
 	protected void startGame() {
 		System.out.println("Welcome to BATTLESHIP!");
@@ -75,7 +75,7 @@ public class BattleshipClient {
 		getServerAddress();
 		createSocket();
 		createStreams();
-		createBoard();
+		//createBoard();
 		
 		gameStatus = true;
 	} // end startGame
@@ -190,12 +190,19 @@ public class BattleshipClient {
 	
 	
 	/**
+	 * Receives messages from the server.  Based on the protocol message
+	 * received, a new method is called that handles the functionality.
 	 * 
+	 * Requires: The socket and input/output streams must be operational.
+	 * 
+	 * Effects: Receives a message, checks it against the protocol,
+	 * 			then offloads the work to a new method.
+	 * 
+	 * Modifies: Variables dis (DataInputStream) and dos (DataOutputStream).
 	 */
-	protected void sendAndReceiveMessages() {
+	protected void receiveMessages() {
 		protocolMessage = "";
 		try {
-		
 			protocolMessage = dis.readUTF();
 		} catch (IOException e) {
 			System.err.println("Could not receive message code.");
@@ -210,7 +217,7 @@ public class BattleshipClient {
 				e.printStackTrace();
 			}
 		} else if (protocolMessage.contains("getShips")) {
-			sendShips();
+			//sendShips();
 		} else if (protocolMessage.contains("yourTurn")) {
 			readGuess();
 		} else if (protocolMessage.contains("hit")) {
@@ -221,7 +228,7 @@ public class BattleshipClient {
 				e.printStackTrace();
 			}
 			
-			updateBoard(playerID, 1); // playerID tells updateBoard which
+			//updateBoard(playerID, 1); // playerID tells updateBoard which
 								   	  // board to update, 1 is hit code
 		} else if (protocolMessage.contains("miss")) {
 			try {
@@ -231,7 +238,7 @@ public class BattleshipClient {
 				e.printStackTrace();
 			}
 			
-			updateBoard(playerID, 0); // 0 is miss code
+			//updateBoard(playerID, 0); // 0 is miss code
 			
 		} else if (protocolMessage.contains("sunk")) {
 			try {
@@ -242,14 +249,20 @@ public class BattleshipClient {
 			}
 			
 			// deal with sunk ship somehow
-			updateBoard(playerID, );
+			//updateBoard(playerID, );
 		}
 	}
 	
 
 	
 	/**
+	 * Gets the guess from the player with a Scanner object.
 	 * 
+	 * Requires: The Scanner object.
+	 * 
+	 * Effects: Retrieves the player's guess.
+	 * 
+	 * Modifies: Nothing.
 	 */
 	public void readGuess(){
 		int guessX, guessY = -1;
@@ -262,7 +275,13 @@ public class BattleshipClient {
 	
 	
 	/**
+	 * Prints the boards for the player.
 	 * 
+	 * Requires: The two boards, the player's and the opponent's.
+	 * 
+	 * Effects: Prints the boards.
+	 * 
+	 * Modifies: Nothing.
 	 */
 	public void printBoard(){
 		int[][] myBoard = new int[10][10]; // 
@@ -279,9 +298,9 @@ public class BattleshipClient {
 			}
 			System.out.println("");
 		}
-		int[][] myBoard = new int[10][10]; // 
+		myBoard = new int[10][10]; // 
 		//get player's board from server
-		int[][] oppBoard = new int[10][10];//
+		oppBoard = new int[10][10];//
 		//get opponent's board from server
 		for(int x = 0; x < 10; x++){
 			for(int y = 0; y < 10; y++){
