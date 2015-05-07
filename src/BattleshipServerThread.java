@@ -42,6 +42,16 @@ public class BattleshipServerThread extends Thread {
 	 */
 	public void run(){
 		newGame();
+		//get names from clients setName (int playerID, string name)
+		//get ship locations from players hideShip() <- threading issues?
+		//start game loop
+		//send P1 guess request message
+		//recieve guess checkGuess()
+		//send guess result
+		//send updated boards to both players
+		//checkIfWin() if yes, exit loop, end game
+		//send P2 guess request message, loop
+		//end loop
 		
 	}
 	
@@ -142,7 +152,9 @@ public class BattleshipServerThread extends Thread {
 		}else{
 			//Deliver hit message
 			board[x][y] -= 2*(board[x][y]);
-			checkIfSunk(board, board[x][y]);
+			if(checkIfSunk(board, board[x][y])){
+				//Deliver sunk message
+			}
 		}
 	}
 	
@@ -182,5 +194,18 @@ public class BattleshipServerThread extends Thread {
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * Standard setter for player names
+	 */
+	setName (int playerID, String name){
+		if(playerID == 1){
+			playername1 = name;
+		}else if(playerID == 2){
+			playername2 = name;
+		}else{
+			//deliver invalid player name message
+		}
 	}
 }
